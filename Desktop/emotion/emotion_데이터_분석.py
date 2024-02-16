@@ -93,10 +93,8 @@ plt.show()
 tmp = pd.DataFrame(df.groupby("start_year").count()["model"]).rename(columns={"model": "count"}).reset_index()
 tmp = tmp.astype(int)
 
-# 그래프의 사이즈를 조절합니다.
 plt.figure(figsize=(10,5))
 
-# seaborn의 countplot 함수를 사용하여 출력합니다.
 sns.set(style="darkgrid")
 sns.lineplot(data=tmp, x="start_year", y="count")
 plt.xticks(tmp["start_year"], rotation=45)
@@ -121,4 +119,21 @@ sns.set(font="NanumBarunGothic",
         style='darkgrid')
 ax = sns.countplot(x="manufacturer", data=df[df.recall_month.isin([10,11,12])], palette="Set2")
 plt.xticks(rotation=80)
+plt.show()
+
+new = new.drop_duplicates(subset = 'start_year')
+new
+
+new = pd.DataFrame(new.sort_values(by='start_year',  ascending=False))
+ax = sns.heatmap(new, annot=True, fmt='d', cmap='YlGnBu')
+plt.show()
+
+new_df = df[['manufacturer', 'start_month', 'end_month']]
+new_df.set_index('manufacturer', inplace=True)
+new_df
+
+new_df = new_df.drop_duplicates(subset = 'start_month')
+
+new_df = pd.DataFrame(new_df.sort_values(by='start_month'))
+ax = sns.heatmap(new_df, annot=True, fmt='d', cmap='YlGnBu')
 plt.show()
